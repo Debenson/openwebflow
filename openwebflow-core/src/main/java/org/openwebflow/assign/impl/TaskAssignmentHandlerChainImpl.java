@@ -8,44 +8,36 @@ import org.activiti.engine.impl.pvm.delegate.ActivityExecution;
 import org.openwebflow.assign.TaskAssignmentHandler;
 import org.openwebflow.assign.TaskAssignmentHandlerChain;
 
-public class TaskAssignmentHandlerChainImpl implements TaskAssignmentHandlerChain
-{
-	static TaskAssignmentHandler NULL_HANDLER = new TaskAssignmentHandler()
-	{
-		@Override
-		public void handleAssignment(TaskAssignmentHandlerChain chain, TaskEntity task, ActivityExecution execution)
-		{
-		}
-	};
+public class TaskAssignmentHandlerChainImpl implements TaskAssignmentHandlerChain {
+  static TaskAssignmentHandler NULL_HANDLER = new TaskAssignmentHandler() {
+    @Override
+    public void handleAssignment(TaskAssignmentHandlerChain chain, TaskEntity task,
+        ActivityExecution execution) {
+    }
+  };
 
-	Stack<TaskAssignmentHandler> _handlers = new Stack<TaskAssignmentHandler>();
+  Stack<TaskAssignmentHandler> _handlers = new Stack<TaskAssignmentHandler>();
 
-	public void addHandler(TaskAssignmentHandler handler)
-	{
-		_handlers.push(handler);
-	}
+  public void addHandler(TaskAssignmentHandler handler) {
+    _handlers.push(handler);
+  }
 
-	public void addHandlers(List<TaskAssignmentHandler> handlers)
-	{
-		for (TaskAssignmentHandler handler : handlers)
-		{
-			_handlers.push(handler);
-		}
-	}
+  public void addHandlers(List<TaskAssignmentHandler> handlers) {
+    for (TaskAssignmentHandler handler : handlers) {
+      _handlers.push(handler);
+    }
+  }
 
-	public TaskAssignmentHandler next()
-	{
-		if (_handlers.isEmpty())
-		{
-			return NULL_HANDLER;
-		}
+  public TaskAssignmentHandler next() {
+    if (_handlers.isEmpty()) {
+      return NULL_HANDLER;
+    }
 
-		return _handlers.pop();
-	}
+    return _handlers.pop();
+  }
 
-	@Override
-	public void resume(TaskEntity task, ActivityExecution execution)
-	{
-		next().handleAssignment(this, task, execution);
-	}
+  @Override
+  public void resume(TaskEntity task, ActivityExecution execution) {
+    next().handleAssignment(this, task, execution);
+  }
 }

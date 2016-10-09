@@ -16,140 +16,116 @@ import org.apache.log4j.Logger;
 import org.openwebflow.identity.IdentityMembershipManager;
 import org.openwebflow.util.IdentityUtils;
 
-public class DummyUserIdentityManager implements UserIdentityManager, Session
-{
-	IdentityMembershipManager _customMembershipManager;
+public class DummyUserIdentityManager implements UserIdentityManager, Session {
+  IdentityMembershipManager _customMembershipManager;
 
-	public DummyUserIdentityManager(IdentityMembershipManager customMembershipManager)
-	{
-		_customMembershipManager = customMembershipManager;
-	}
+  public DummyUserIdentityManager(IdentityMembershipManager customMembershipManager) {
+    _customMembershipManager = customMembershipManager;
+  }
 
-	@Override
-	public Boolean checkPassword(String userId, String password)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public Boolean checkPassword(String userId, String password) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public void close()
-	{
-	}
+  @Override
+  public void close() {
+  }
 
-	@Override
-	public User createNewUser(String userId)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public User createNewUser(String userId) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public UserQuery createNewUserQuery()
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public UserQuery createNewUserQuery() {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public void deleteUser(String userId)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public void deleteUser(String userId) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public List<Group> findGroupsByUser(String userId)
-	{
-		Logger.getLogger(this.getClass()).debug(
-			String.format("%s#findGroupsByUser(\"%s\")", _customMembershipManager, userId));
+  @Override
+  public List<Group> findGroupsByUser(String userId) {
+    Logger.getLogger(this.getClass())
+        .debug(String.format("%s#findGroupsByUser(\"%s\")", _customMembershipManager, userId));
 
-		try
-		{
-			return IdentityUtils.getGroupsFromIds(_customMembershipManager.findGroupIdsByUser(userId));
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+    try {
+      return IdentityUtils.getGroupsFromIds(_customMembershipManager.findGroupIdsByUser(userId));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-	@Override
-	public List<User> findPotentialStarterUsers(String proceDefId)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public List<User> findPotentialStarterUsers(String proceDefId) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public User findUserById(String userId)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public User findUserById(String userId) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public List<User> findUserByQueryCriteria(UserQueryImpl query, Page page)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public List<User> findUserByQueryCriteria(UserQueryImpl query, Page page) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public long findUserCountByNativeQuery(Map<String, Object> parameterMap)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public long findUserCountByNativeQuery(Map<String, Object> parameterMap) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public long findUserCountByQueryCriteria(UserQueryImpl query)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public long findUserCountByQueryCriteria(UserQueryImpl query) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public IdentityInfoEntity findUserInfoByUserIdAndKey(String userId, String key)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public IdentityInfoEntity findUserInfoByUserIdAndKey(String userId, String key) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public List<String> findUserInfoKeysByUserIdAndType(String userId, String type)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public List<String> findUserInfoKeysByUserIdAndType(String userId, String type) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public List<User> findUsersByNativeQuery(Map<String, Object> parameterMap, int firstResult, int maxResults)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public List<User> findUsersByNativeQuery(Map<String, Object> parameterMap, int firstResult,
+      int maxResults) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public void flush()
-	{
-	}
+  @Override
+  public void flush() {
+  }
 
-	@Override
-	public Picture getUserPicture(String userId)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public Picture getUserPicture(String userId) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public void insertUser(User user)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public void insertUser(User user) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public boolean isNewUser(User user)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public boolean isNewUser(User user) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public void setUserPicture(String userId, Picture picture)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public void setUserPicture(String userId, Picture picture) {
+    throw new UnsupportedOperationException();
+  }
 
-	@Override
-	public void updateUser(User updatedUser)
-	{
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public void updateUser(User updatedUser) {
+    throw new UnsupportedOperationException();
+  }
 }

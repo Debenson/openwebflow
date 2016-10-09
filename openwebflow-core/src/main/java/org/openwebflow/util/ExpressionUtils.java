@@ -13,26 +13,21 @@ import org.activiti.engine.impl.el.FixedValue;
  * @author bluejoe2008@gmail.com
  *
  */
-public abstract class ExpressionUtils
-{
-	public static Expression stringToExpression(ProcessEngineConfigurationImpl conf, String expr)
-	{
-		return conf.getExpressionManager().createExpression(expr);
-	}
+public abstract class ExpressionUtils {
+  public static Expression stringToExpression(ProcessEngineConfigurationImpl conf, String expr) {
+    return conf.getExpressionManager().createExpression(expr);
+  }
 
-	public static Expression stringToExpression(String expr)
-	{
-		return new FixedValue(expr);
-	}
+  public static Expression stringToExpression(String expr) {
+    return new FixedValue(expr);
+  }
 
-	public static Set<Expression> stringToExpressionSet(String exprs)
-	{
-		Set<Expression> set = new LinkedHashSet<Expression>();
-		for (String expr : exprs.split(";"))
-		{
-			set.add(stringToExpression(expr));
-		}
+  public static Set<Expression> stringToExpressionSet(String exprs) {
+    Set<Expression> set = new LinkedHashSet<Expression>();
+    for (String expr : exprs.split(";")) {
+      set.add(stringToExpression(expr));
+    }
 
-		return set;
-	}
+    return set;
+  }
 }

@@ -8,9 +8,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.util.Assert;
 
 public class SqlDaoBase<EntityClass>
 {
@@ -67,7 +67,7 @@ public class SqlDaoBase<EntityClass>
 	public EntityClass queryForSingleObject(String hql, Object... parameters) throws Exception
 	{
 		List<EntityClass> list = queryForObjects(hql, parameters);
-		Assert.assertEquals(1, list.size());
+		Assert.isTrue(1 == list.size());
 
 		return list.get(0);
 	}

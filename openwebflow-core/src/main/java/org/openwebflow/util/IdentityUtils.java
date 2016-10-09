@@ -20,62 +20,49 @@ import org.openwebflow.identity.UserDetailsManager;
  * @author bluejoe2008@gmail.com
  *
  */
-public abstract class IdentityUtils
-{
-	public static List<Group> getGroupsFromIds(List<String> groupIds)
-	{
-		List<Group> groups = new ArrayList<Group>();
-		for (String groupId : groupIds)
-		{
-			groups.add(new GroupEntity(groupId));
-		}
+public abstract class IdentityUtils {
+  public static List<Group> getGroupsFromIds(List<String> groupIds) {
+    List<Group> groups = new ArrayList<Group>();
+    for (String groupId : groupIds) {
+      groups.add(new GroupEntity(groupId));
+    }
 
-		return groups;
-	}
+    return groups;
+  }
 
-	public static List<String> getInvolvedUsers(TaskService taskService, Task task,
-			IdentityMembershipManager membershipManager) throws Exception
-	{
-		Map<String, Object> userIds = new HashMap<String, Object>();
-		String assignee = task.getAssignee();
-		//如果直接指定了任务执行人，则忽略其他候选人
-		if (assignee != null)
-		{
-			userIds.put(assignee, new Object());
-		}
-		else
-		{
-			for (IdentityLink link : taskService.getIdentityLinksForTask(task.getId()))
-			{
-				String userId = link.getUserId();
-				if (userId != null)
-				{
-					userIds.put(userId, new Object());
-				}
+  public static List<String> getInvolvedUsers(TaskService taskService, Task task,
+      IdentityMembershipManager membershipManager) throws Exception {
+    Map<String, Object> userIds = new HashMap<String, Object>();
+    String assignee = task.getAssignee();
+    // 如果直接指定了任务执行人，则忽略其他候选人
+    if (assignee != null) {
+      userIds.put(assignee, new Object());
+    } else {
+      for (IdentityLink link : taskService.getIdentityLinksForTask(task.getId())) {
+        String userId = link.getUserId();
+        if (userId != null) {
+          userIds.put(userId, new Object());
+        }
 
-				String groupId = link.getGroupId();
-				if (groupId != null)
-				{
-					for (String gUserId : membershipManager.findUserIdsByGroup(groupId))
-					{
-						userIds.put(gUserId, new Object());
-					}
-				}
-			}
-		}
+        String groupId = link.getGroupId();
+        if (groupId != null) {
+          for (String gUserId : membershipManager.findUserIdsByGroup(groupId)) {
+            userIds.put(gUserId, new Object());
+          }
+        }
+      }
+    }
 
-		return new ArrayList<String>(userIds.keySet());
-	}
+    return new ArrayList<String>(userIds.keySet());
+  }
 
-	public static List<UserDetailsEntity> getUserDetailsFromIds(List<String> userIds,
-			UserDetailsManager userDetailsManager) throws Exception
-	{
-		List<UserDetailsEntity> detailsList = new ArrayList<UserDetailsEntity>();
-		for (String userId : userIds)
-		{
-			detailsList.add(userDetailsManager.findUserDetails(userId));
-		}
+  public static List<UserDetailsEntity> getUserDetailsFromIds(List<String> userIds,
+      UserDetailsManager userDetailsManager) throws Exception {
+    List<UserDetailsEntity> detailsList = new ArrayList<UserDetailsEntity>();
+    for (String userId : userIds) {
+      detailsList.add(userDetailsManager.findUserDetails(userId));
+    }
 
-		return detailsList;
-	}
+    return detailsList;
+  }
 }

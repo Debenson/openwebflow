@@ -13,71 +13,66 @@ import org.openwebflow.util.CloneUtils;
 import org.openwebflow.util.ProcessDefinitionUtils;
 import org.springframework.beans.BeanUtils;
 
-public abstract class RuntimeActivityCreatorSupport
-{
-	private static int SEQUNCE_NUMBER = 0;
+public abstract class RuntimeActivityCreatorSupport {
+  private static int SEQUNCE_NUMBER = 0;
 
-	protected ActivityImpl cloneActivity(ProcessDefinitionEntity processDefinition, ActivityImpl prototypeActivity,
-			String newActivityId, String... fieldNames)
-	{
-		ActivityImpl clone = processDefinition.createActivity(newActivityId);
-		CloneUtils.copyFields(prototypeActivity, clone, fieldNames);
+  protected ActivityImpl cloneActivity(ProcessDefinitionEntity processDefinition,
+      ActivityImpl prototypeActivity, String newActivityId, String... fieldNames) {
+    ActivityImpl clone = processDefinition.createActivity(newActivityId);
+    CloneUtils.copyFields(prototypeActivity, clone, fieldNames);
 
-		return clone;
-	}
+    return clone;
+  }
 
-	protected TaskDefinition cloneTaskDefinition(TaskDefinition taskDefinition)
-	{
-		TaskDefinition newTaskDefinition = new TaskDefinition(taskDefinition.getTaskFormHandler());
-		BeanUtils.copyProperties(taskDefinition, newTaskDefinition);
-		return newTaskDefinition;
-	}
+  protected TaskDefinition cloneTaskDefinition(TaskDefinition taskDefinition) {
+    TaskDefinition newTaskDefinition = new TaskDefinition(taskDefinition.getTaskFormHandler());
+    BeanUtils.copyProperties(taskDefinition, newTaskDefinition);
+    return newTaskDefinition;
+  }
 
-	protected ActivityImpl createActivity(ProcessEngine processEngine, ProcessDefinitionEntity processDefinition,
-			ActivityImpl prototypeActivity, String cloneActivityId, String assignee)
-	{
-		ActivityImpl clone = cloneActivity(processDefinition, prototypeActivity, cloneActivityId, "executionListeners",
-			"properties");
+  protected ActivityImpl createActivity(ProcessEngine processEngine,
+      ProcessDefinitionEntity processDefinition, ActivityImpl prototypeActivity,
+      String cloneActivityId, String assignee) {
+    ActivityImpl clone = cloneActivity(processDefinition, prototypeActivity, cloneActivityId,
+        "executionListeners", "properties");
 
-		//设置assignee
-		UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior) (prototypeActivity.getActivityBehavior());
+    // 设置assignee
+    UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior) (prototypeActivity
+        .getActivityBehavior());
 
-		TaskDefinition taskDefinition = cloneTaskDefinition(activityBehavior.getTaskDefinition());
-		taskDefinition.setKey(cloneActivityId);
-		if (assignee != null)
-		{
-			taskDefinition.setAssigneeExpression(new FixedValue(assignee));
-		}
+    TaskDefinition taskDefinition = cloneTaskDefinition(activityBehavior.getTaskDefinition());
+    taskDefinition.setKey(cloneActivityId);
+    if (assignee != null) {
+      taskDefinition.setAssigneeExpression(new FixedValue(assignee));
+    }
 
-		UserTaskActivityBehavior cloneActivityBehavior = new UserTaskActivityBehavior(null, taskDefinition);
-		clone.setActivityBehavior(cloneActivityBehavior);
+    UserTaskActivityBehavior cloneActivityBehavior = new UserTaskActivityBehavior(taskDefinition);
+    clone.setActivityBehavior(cloneActivityBehavior);
 
-		return clone;
-	}
+    return clone;
+  }
 
-	protected ActivityImpl createActivity(ProcessEngine processEngine, ProcessDefinitionEntity processDefinition,
-			String prototypeActivityId, String cloneActivityId, String assignee)
-	{
-		ActivityImpl prototypeActivity = ProcessDefinitionUtils.getActivity(processEngine, processDefinition.getId(),
-			prototypeActivityId);
+  protected ActivityImpl createActivity(ProcessEngine processEngine,
+      ProcessDefinitionEntity processDefinition, String prototypeActivityId, String cloneActivityId,
+      String assignee) {
+    ActivityImpl prototypeActivity = ProcessDefinitionUtils.getActivity(processEngine,
+        processDefinition.getId(), prototypeActivityId);
 
-		return createActivity(processEngine, processDefinition, prototypeActivity, cloneActivityId, assignee);
-	}
+    return createActivity(processEngine, processDefinition, prototypeActivity, cloneActivityId,
+        assignee);
+  }
 
-	protected void createActivityChain(List<ActivityImpl> activities, ActivityImpl nextActivity)
-	{
-		for (int i = 0; i < activities.size(); i++)
-		{
-			//设置各活动的下线
-			activities.get(i).getOutgoingTransitions().clear();
-			activities.get(i).createOutgoingTransition("flow" + (i + 1))
-					.setDestination(i == activities.size() - 1 ? nextActivity : activities.get(i + 1));
-		}
-	}
+  protected void createActivityChain(List<ActivityImpl> activities, ActivityImpl nextActivity) {
+    for (int i = 0; i < activities.size(); i++) {
+      // 设置各活动的下线
+      activities.get(i).getOutgoingTransitions().clear();
+      activities.get(i).createOutgoingTransition("flow" + (i + 1))
+          .setDestination(i == activities.size() - 1 ? nextActivity : activities.get(i + 1));
+    }
+  }
 
-	protected String createUniqueActivityId(String processInstanceId, String prototypeActivityId)
-	{
-		return processInstanceId + ":" + prototypeActivityId + ":" + System.currentTimeMillis() + "-"
-				+ (SEQUNCE_NUMBER++);
-	}
+  protected String createUniqueActivityId(String processInstanceId, String prototypeActivityId) {
+    return processInstanceId + ":" + prototypeActivityId + ":" + System.currentTimeMillis() + "-"
+        + (SEQUNCE_NUMBER++);
+  }
 }

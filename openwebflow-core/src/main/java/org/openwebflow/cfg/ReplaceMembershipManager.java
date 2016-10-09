@@ -15,37 +15,32 @@ import org.openwebflow.identity.impl.DummyGroupIdentityManager;
 import org.openwebflow.identity.impl.DummyMembershipIdentityManager;
 import org.openwebflow.identity.impl.DummyUserIdentityManager;
 
-public class ReplaceMembershipManager implements StartEngineEventListener
-{
-	IdentityMembershipManager _customMembershipManager;
+public class ReplaceMembershipManager implements StartEngineEventListener {
+  IdentityMembershipManager _customMembershipManager;
 
-	@Override
-	public void afterStartEngine(ProcessEngineConfigurationImpl conf, ProcessEngine processEngine)
-	{
-	}
+  @Override
+  public void afterStartEngine(ProcessEngineConfigurationImpl conf, ProcessEngine processEngine) {
+  }
 
-	@Override
-	public void beforeStartEngine(ProcessEngineConfigurationImpl conf)
-	{
-		List<SessionFactory> sessionFactories = new ArrayList<SessionFactory>();
-		sessionFactories.add(new SessionedEntityManagerFactory(UserIdentityManager.class, new DummyUserIdentityManager(
-				_customMembershipManager)));
-		sessionFactories.add(new SessionedEntityManagerFactory(GroupIdentityManager.class,
-				new DummyGroupIdentityManager(_customMembershipManager)));
-		sessionFactories.add(new SessionedEntityManagerFactory(MembershipIdentityManager.class,
-				new DummyMembershipIdentityManager()));
+  @Override
+  public void beforeStartEngine(ProcessEngineConfigurationImpl conf) {
+    List<SessionFactory> sessionFactories = new ArrayList<SessionFactory>();
+    sessionFactories.add(new SessionedEntityManagerFactory(UserIdentityManager.class,
+        new DummyUserIdentityManager(_customMembershipManager)));
+    sessionFactories.add(new SessionedEntityManagerFactory(GroupIdentityManager.class,
+        new DummyGroupIdentityManager(_customMembershipManager)));
+    sessionFactories.add(new SessionedEntityManagerFactory(MembershipIdentityManager.class,
+        new DummyMembershipIdentityManager()));
 
-		conf.setCustomSessionFactories(sessionFactories);
-	}
+    conf.setCustomSessionFactories(sessionFactories);
+  }
 
-	public IdentityMembershipManager getCustomMembershipManager()
-	{
-		return _customMembershipManager;
-	}
+  public IdentityMembershipManager getCustomMembershipManager() {
+    return _customMembershipManager;
+  }
 
-	public void setCustomMembershipManager(IdentityMembershipManager customMembershipManager)
-	{
-		_customMembershipManager = customMembershipManager;
-	}
+  public void setCustomMembershipManager(IdentityMembershipManager customMembershipManager) {
+    _customMembershipManager = customMembershipManager;
+  }
 
 }
