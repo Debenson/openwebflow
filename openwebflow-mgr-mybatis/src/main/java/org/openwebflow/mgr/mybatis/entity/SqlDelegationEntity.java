@@ -4,29 +4,24 @@ import java.sql.Date;
 
 import org.openwebflow.mgr.common.SimpleDelegationEntity;
 
-public class SqlDelegationEntity extends SimpleDelegationEntity
-{
-	long _id;
+public class SqlDelegationEntity extends SimpleDelegationEntity {
+  long _id;
 
-	Date _opTime;
+  Date _opTime;
 
-	public long getId()
-	{
-		return _id;
-	}
+  public long getId() {
+    return _id;
+  }
 
-	public Date getOpTime()
-	{
-		return _opTime;
-	}
+  public Date getOpTime() {
+    return _opTime;
+  }
 
-	public void setId(long id)
-	{
-		_id = id;
-	}
+  public void setId(long id) {
+    _id = id;
+  }
 
-	public void setOpTime(Date opTime)
-	{
-		_opTime = opTime;
-	}
+  public void setOpTime(Date opTime) {
+    _opTime = opTime;
+  }
 }

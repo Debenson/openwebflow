@@ -13,43 +13,36 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
-public class SqlMembershipManager extends SqlMapperBasedServiceBase<SqlMembershipEntityMapper> implements
-		IdentityMembershipManager, IdentityMembershipManagerEx
-{
-	public List<String> findGroupIdsByUser(String userId)
-	{
-		Map<String, Object> names = new HashMap<String, Object>();
-		for (SqlMembershipEntity ms : _mapper.findMembershipsByUserId(userId))
-		{
-			names.put(ms.getGroupId(), 0);
-		}
+public class SqlMembershipManager extends SqlMapperBasedServiceBase<SqlMembershipEntityMapper>
+    implements IdentityMembershipManager, IdentityMembershipManagerEx {
+  public List<String> findGroupIdsByUser(String userId) {
+    Map<String, Object> names = new HashMap<String, Object>();
+    for (SqlMembershipEntity ms : _mapper.findMembershipsByUserId(userId)) {
+      names.put(ms.getGroupId(), 0);
+    }
 
-		return new ArrayList<String>(names.keySet());
-	}
+    return new ArrayList<String>(names.keySet());
+  }
 
-	public List<String> findUserIdsByGroup(String groupId)
-	{
-		Map<String, Object> names = new HashMap<String, Object>();
-		for (SqlMembershipEntity ms : _mapper.findMembershipsByGroupId(groupId))
-		{
-			names.put(ms.getUserId(), 0);
-		}
+  public List<String> findUserIdsByGroup(String groupId) {
+    Map<String, Object> names = new HashMap<String, Object>();
+    for (SqlMembershipEntity ms : _mapper.findMembershipsByGroupId(groupId)) {
+      names.put(ms.getUserId(), 0);
+    }
 
-		return new ArrayList<String>(names.keySet());
-	}
+    return new ArrayList<String>(names.keySet());
+  }
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void removeAll()
-	{
-		_mapper.deleteAll();
-	}
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void removeAll() {
+    _mapper.deleteAll();
+  }
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveMembership(String userId, String groupId)
-	{
-		SqlMembershipEntity mse = new SqlMembershipEntity();
-		mse.setGroupId(groupId);
-		mse.setUserId(userId);
-		_mapper.saveMembership(mse);
-	}
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void saveMembership(String userId, String groupId) {
+    SqlMembershipEntity mse = new SqlMembershipEntity();
+    mse.setGroupId(groupId);
+    mse.setUserId(userId);
+    _mapper.saveMembership(mse);
+  }
 }

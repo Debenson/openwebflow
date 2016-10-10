@@ -15,53 +15,41 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
-public class SqlDelegationManager implements DelegationManager, DelegationManagerEx
-{
-	@Autowired
-	SqlDelegationDao _dao;
+public class SqlDelegationManager implements DelegationManager, DelegationManagerEx {
+  @Autowired
+  SqlDelegationDao _dao;
 
-	@Override
-	public String[] getDelegates(String delegated)
-	{
-		Map<String, Object> delegates = new HashMap<String, Object>();
-		try
-		{
-			for (SqlDelegationEntity sde : _dao.findByDelegated(delegated))
-			{
-				delegates.put(sde.getDelegate(), 0);
-			}
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
+  @Override
+  public String[] getDelegates(String delegated) {
+    Map<String, Object> delegates = new HashMap<String, Object>();
+    try {
+      for (SqlDelegationEntity sde : _dao.findByDelegated(delegated)) {
+        delegates.put(sde.getDelegate(), 0);
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
 
-		return delegates.keySet().toArray(new String[0]);
-	}
+    return delegates.keySet().toArray(new String[0]);
+  }
 
-	@Override
-	public List<DelegationEntity> listDelegationEntities()
-	{
-		try
-		{
-			return _dao.list();
-		}
-		catch (Exception e)
-		{
-			throw new OwfException(e);
-		}
-	}
+  @Override
+  public List<DelegationEntity> listDelegationEntities() {
+    try {
+      return _dao.list();
+    } catch (Exception e) {
+      throw new OwfException(e);
+    }
+  }
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void removeAll() throws Exception
-	{
-		_dao.deleteAll();
-	}
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void removeAll() throws Exception {
+    _dao.deleteAll();
+  }
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveDelegation(String delegated, String delegate) throws Exception
-	{
-		_dao.saveDelegation(delegated, delegate);
-	}
+  @Override
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void saveDelegation(String delegated, String delegate) throws Exception {
+    _dao.saveDelegation(delegated, delegate);
+  }
 }

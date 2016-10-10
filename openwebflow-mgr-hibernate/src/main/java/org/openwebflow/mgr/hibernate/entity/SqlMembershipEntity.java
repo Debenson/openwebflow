@@ -9,46 +9,39 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "OWF_MEMBERSHIP")
-public class SqlMembershipEntity
-{
-	@Column(name = "GROUP_ID")
-	String _groupId;
+public class SqlMembershipEntity {
+  @Column(name = "GROUP_ID")
+  String _groupId;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	int _id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  int _id;
 
-	@Column(name = "USER_ID")
-	String _userId;
+  @Column(name = "USER_ID")
+  String _userId;
 
-	public String getGroupId()
-	{
-		return _groupId;
-	}
+  public String getGroupId() {
+    return _groupId;
+  }
 
-	public int getId()
-	{
-		return _id;
-	}
+  public int getId() {
+    return _id;
+  }
 
-	public String getUserId()
-	{
-		return _userId;
-	}
+  public String getUserId() {
+    return _userId;
+  }
 
-	public void setGroupId(String groupId)
-	{
-		_groupId = groupId;
-	}
+  public void setGroupId(String groupId) {
+    _groupId = groupId;
+  }
 
-	public void setId(int id)
-	{
-		_id = id;
-	}
+  public void setId(int id) {
+    _id = id;
+  }
 
-	public void setUserId(String userId)
-	{
-		_userId = userId;
-	}
+  public void setUserId(String userId) {
+    _userId = userId;
+  }
 }

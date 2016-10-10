@@ -15,59 +15,47 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
-public class SqlMembershipManager implements IdentityMembershipManager, IdentityMembershipManagerEx
-{
-	@Autowired
-	SqlMembershipDao _dao;
+public class SqlMembershipManager
+    implements IdentityMembershipManager, IdentityMembershipManagerEx {
+  @Autowired
+  SqlMembershipDao _dao;
 
-	@Override
-	public List<String> findGroupIdsByUser(String userId)
-	{
-		Map<String, Object> names = new HashMap<String, Object>();
-		try
-		{
-			for (Object ms : _dao.findByUser(userId))
-			{
-				names.put(((SqlMembershipEntity) ms).getGroupId(), 0);
-			}
-		}
-		catch (Exception e)
-		{
-			throw new OwfException(e);
-		}
+  @Override
+  public List<String> findGroupIdsByUser(String userId) {
+    Map<String, Object> names = new HashMap<String, Object>();
+    try {
+      for (Object ms : _dao.findByUser(userId)) {
+        names.put(((SqlMembershipEntity) ms).getGroupId(), 0);
+      }
+    } catch (Exception e) {
+      throw new OwfException(e);
+    }
 
-		return new ArrayList<String>(names.keySet());
-	}
+    return new ArrayList<String>(names.keySet());
+  }
 
-	@Override
-	public List<String> findUserIdsByGroup(String groupId)
-	{
-		Map<String, Object> names = new HashMap<String, Object>();
-		try
-		{
-			for (Object ms : _dao.findByGroup(groupId))
-			{
-				names.put(((SqlMembershipEntity) ms).getUserId(), 0);
-			}
-		}
-		catch (Exception e)
-		{
-			throw new OwfException(e);
-		}
+  @Override
+  public List<String> findUserIdsByGroup(String groupId) {
+    Map<String, Object> names = new HashMap<String, Object>();
+    try {
+      for (Object ms : _dao.findByGroup(groupId)) {
+        names.put(((SqlMembershipEntity) ms).getUserId(), 0);
+      }
+    } catch (Exception e) {
+      throw new OwfException(e);
+    }
 
-		return new ArrayList<String>(names.keySet());
-	}
+    return new ArrayList<String>(names.keySet());
+  }
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void removeAll() throws Exception
-	{
-		_dao.deleteAll();
-	}
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void removeAll() throws Exception {
+    _dao.deleteAll();
+  }
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveMembership(String userId, String groupId) throws Exception
-	{
-		_dao.saveMembership(userId, groupId);
-	}
+  @Override
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void saveMembership(String userId, String groupId) throws Exception {
+    _dao.saveMembership(userId, groupId);
+  }
 }

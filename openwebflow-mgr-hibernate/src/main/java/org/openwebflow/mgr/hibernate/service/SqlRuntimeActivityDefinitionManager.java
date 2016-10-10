@@ -13,50 +13,45 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
-public class SqlRuntimeActivityDefinitionManager implements RuntimeActivityDefinitionManager
-{
-	@Autowired
-	SqlRuntimeActivityDefinitionDao _dao;
+public class SqlRuntimeActivityDefinitionManager implements RuntimeActivityDefinitionManager {
+  @Autowired
+  SqlRuntimeActivityDefinitionDao _dao;
 
-	@Override
-	public List<RuntimeActivityDefinitionEntity> list() throws Exception
-	{
-		List<RuntimeActivityDefinitionEntity> list = new ArrayList<RuntimeActivityDefinitionEntity>();
-		for (SqlRuntimeActivityDefinitionEntity entity : _dao.list())
-		{
-			SimpleRuntimeActivityDefinitionEntity rad = new SimpleRuntimeActivityDefinitionEntity();
-			rad.setFactoryName(entity.getFactoryName());
-			rad.setProcessDefinitionId(entity.getProcessDefinitionId());
-			rad.setProcessInstanceId(entity.getProcessInstanceId());
-			rad.setPropertiesText(entity.getPropertiesText());
+  @Override
+  public List<RuntimeActivityDefinitionEntity> list() throws Exception {
+    List<RuntimeActivityDefinitionEntity> list = new ArrayList<RuntimeActivityDefinitionEntity>();
+    for (SqlRuntimeActivityDefinitionEntity entity : _dao.list()) {
+      SimpleRuntimeActivityDefinitionEntity rad = new SimpleRuntimeActivityDefinitionEntity();
+      rad.setFactoryName(entity.getFactoryName());
+      rad.setProcessDefinitionId(entity.getProcessDefinitionId());
+      rad.setProcessInstanceId(entity.getProcessInstanceId());
+      rad.setPropertiesText(entity.getPropertiesText());
 
-			rad.deserializeProperties();
-			list.add(rad);
-		}
+      rad.deserializeProperties();
+      list.add(rad);
+    }
 
-		return list;
-	}
+    return list;
+  }
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void removeAll() throws Exception
-	{
-		_dao.deleteAll();
-	}
+  @Override
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void removeAll() throws Exception {
+    _dao.deleteAll();
+  }
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void save(RuntimeActivityDefinitionEntity entity) throws Exception
-	{
-		entity.serializeProperties();
+  @Override
+  @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+  public void save(RuntimeActivityDefinitionEntity entity) throws Exception {
+    entity.serializeProperties();
 
-		SqlRuntimeActivityDefinitionEntity srad = new SqlRuntimeActivityDefinitionEntity();
-		srad.setFactoryName(entity.getFactoryName());
-		srad.setProcessDefinitionId(entity.getProcessDefinitionId());
-		srad.setProcessInstanceId(entity.getProcessInstanceId());
-		srad.setPropertiesText(entity.getPropertiesText());
+    SqlRuntimeActivityDefinitionEntity srad = new SqlRuntimeActivityDefinitionEntity();
+    srad.setFactoryName(entity.getFactoryName());
+    srad.setProcessDefinitionId(entity.getProcessDefinitionId());
+    srad.setProcessInstanceId(entity.getProcessInstanceId());
+    srad.setPropertiesText(entity.getPropertiesText());
 
-		_dao.save(srad);
-	}
+    _dao.save(srad);
+  }
 
 }

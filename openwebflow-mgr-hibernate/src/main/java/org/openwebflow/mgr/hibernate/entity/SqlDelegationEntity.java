@@ -13,59 +13,50 @@ import org.openwebflow.assign.delegation.DelegationEntity;
 
 @Entity
 @Table(name = "OWF_DELEGATION")
-public class SqlDelegationEntity implements DelegationEntity
-{
-	@Column(name = "DELEGATE")
-	String _delegate;
+public class SqlDelegationEntity implements DelegationEntity {
+  @Column(name = "DELEGATE")
+  String _delegate;
 
-	@Column(name = "DELEGATED")
-	String _delegated;
+  @Column(name = "DELEGATED")
+  String _delegated;
 
-	@Column(name = "ID")
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	long _id;
+  @Column(name = "ID")
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  long _id;
 
-	@Column(name = "OP_TIME")
-	Date _opTime;
+  @Column(name = "OP_TIME")
+  Date _opTime;
 
-	public String getDelegate()
-	{
-		return _delegate;
-	}
+  public String getDelegate() {
+    return _delegate;
+  }
 
-	public String getDelegated()
-	{
-		return _delegated;
-	}
+  public String getDelegated() {
+    return _delegated;
+  }
 
-	public long getId()
-	{
-		return _id;
-	}
+  public long getId() {
+    return _id;
+  }
 
-	public Date getOpTime()
-	{
-		return _opTime;
-	}
+  public Date getOpTime() {
+    return _opTime;
+  }
 
-	public void setDelegate(String delegates)
-	{
-		_delegate = delegates;
-	}
+  public void setDelegate(String delegates) {
+    _delegate = delegates;
+  }
 
-	public void setDelegated(String delegated)
-	{
-		_delegated = delegated;
-	}
+  public void setDelegated(String delegated) {
+    _delegated = delegated;
+  }
 
-	public void setId(long id)
-	{
-		_id = id;
-	}
+  public void setId(long id) {
+    _id = id;
+  }
 
-	public void setOpTime(Date opTime)
-	{
-		_opTime = opTime;
-	}
+  public void setOpTime(Date opTime) {
+    _opTime = opTime;
+  }
 }

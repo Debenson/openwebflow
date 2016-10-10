@@ -11,46 +11,39 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "OWF_NOTIFICATION")
-public class SqlNotificationEntity
-{
-	@Column(name = "ID")
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	int _id;
+public class SqlNotificationEntity {
+  @Column(name = "ID")
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  int _id;
 
-	@Column(name = "OP_TIME")
-	Date _opTime;
+  @Column(name = "OP_TIME")
+  Date _opTime;
 
-	@Column(name = "TASK_ID")
-	String _taskId;
+  @Column(name = "TASK_ID")
+  String _taskId;
 
-	public int getId()
-	{
-		return _id;
-	}
+  public int getId() {
+    return _id;
+  }
 
-	public Date getOpTime()
-	{
-		return _opTime;
-	}
+  public Date getOpTime() {
+    return _opTime;
+  }
 
-	public String getTaskId()
-	{
-		return _taskId;
-	}
+  public String getTaskId() {
+    return _taskId;
+  }
 
-	public void setId(int id)
-	{
-		_id = id;
-	}
+  public void setId(int id) {
+    _id = id;
+  }
 
-	public void setOpTime(Date opTime)
-	{
-		_opTime = opTime;
-	}
+  public void setOpTime(Date opTime) {
+    _opTime = opTime;
+  }
 
-	public void setTaskId(String taskId)
-	{
-		_taskId = taskId;
-	}
+  public void setTaskId(String taskId) {
+    _taskId = taskId;
+  }
 }

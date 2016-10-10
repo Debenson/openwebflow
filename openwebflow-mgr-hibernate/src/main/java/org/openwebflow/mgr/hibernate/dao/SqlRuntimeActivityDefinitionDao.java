@@ -6,20 +6,17 @@ import org.openwebflow.mgr.hibernate.entity.SqlRuntimeActivityDefinitionEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SqlRuntimeActivityDefinitionDao extends SqlDaoBase<SqlRuntimeActivityDefinitionEntity>
-{
-	public void deleteAll() throws Exception
-	{
-		super.executeUpdate("DELETE from SqlRuntimeActivityDefinitionEntity");
-	}
+public class SqlRuntimeActivityDefinitionDao
+    extends SqlDaoBase<SqlRuntimeActivityDefinitionEntity> {
+  public void deleteAll() throws Exception {
+    super.executeUpdate("DELETE from SqlRuntimeActivityDefinitionEntity");
+  }
 
-	public List<SqlRuntimeActivityDefinitionEntity> list() throws Exception
-	{
-		return super.queryForObjects("from SqlRuntimeActivityDefinitionEntity");
-	}
+  public List<SqlRuntimeActivityDefinitionEntity> list() throws Exception {
+    return super.queryForObjects("from SqlRuntimeActivityDefinitionEntity");
+  }
 
-	public void save(SqlRuntimeActivityDefinitionEntity entity) throws Exception
-	{
-		super.saveObject(entity);
-	}
+  public void save(SqlRuntimeActivityDefinitionEntity entity) throws Exception {
+    super.saveObject(entity);
+  }
 }

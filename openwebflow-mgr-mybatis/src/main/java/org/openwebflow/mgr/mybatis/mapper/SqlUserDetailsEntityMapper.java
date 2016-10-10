@@ -9,18 +9,18 @@ import org.apache.ibatis.annotations.Select;
 import org.openwebflow.mgr.common.SimpleUserDetailsEntity;
 import org.openwebflow.mgr.common.UserDetailsEntitySupport;
 
-public interface SqlUserDetailsEntityMapper
-{
-	@Delete("DELETE from OWF_USER")
-	void deleteAll();
+public interface SqlUserDetailsEntityMapper {
+  @Delete("DELETE from OWF_USER")
+  void deleteAll();
 
-	@Select("SELECT * FROM OWF_USER where USER_ID=#{userId}")
-	@Results(value = { @Result(property = "userId", column = "USER_ID"), @Result(property = "email", column = "EMAIL"),
-			@Result(property = "nickName", column = "NICK_NAME"),
-			@Result(property = "mobilePhoneNumber", column = "MOBILE_PHONE_NUMBER") })
-	SimpleUserDetailsEntity findUserDetailsById(@Param("userId")
-	String userId);
+  @Select("SELECT * FROM OWF_USER where USER_ID=#{userId}")
+  @Results(value = {
+      @Result(property = "userId", column = "USER_ID"),
+      @Result(property = "email", column = "EMAIL"),
+      @Result(property = "nickName", column = "NICK_NAME"),
+      @Result(property = "mobilePhoneNumber", column = "MOBILE_PHONE_NUMBER") })
+  SimpleUserDetailsEntity findUserDetailsById(@Param("userId") String userId);
 
-	@Insert("INSERT INTO OWF_USER (USER_ID,EMAIL,NICK_NAME,MOBILE_PHONE_NUMBER) values (#{userId},#{email},#{nickName},#{mobilePhoneNumber})")
-	void saveUserDetails(UserDetailsEntitySupport userDetails);
+  @Insert("INSERT INTO OWF_USER (USER_ID,EMAIL,NICK_NAME,MOBILE_PHONE_NUMBER) values (#{userId},#{email},#{nickName},#{mobilePhoneNumber})")
+  void saveUserDetails(UserDetailsEntitySupport userDetails);
 }
