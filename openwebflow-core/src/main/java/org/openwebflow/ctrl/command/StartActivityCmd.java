@@ -5,10 +5,12 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.pvm.runtime.AtomicOperation;
-import org.apache.log4j.Logger;
-import org.openwebflow.ctrl.impl.DefaultTaskFlowControlService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StartActivityCmd implements Command<java.lang.Void> {
+  private static final Logger logger = LoggerFactory.getLogger(StartActivityCmd.class);
+
   private ActivityImpl _activity;
 
   private String _executionId;
@@ -21,8 +23,7 @@ public class StartActivityCmd implements Command<java.lang.Void> {
   @Override
   public Void execute(CommandContext commandContext) {
     // 创建新任务
-    Logger.getLogger(DefaultTaskFlowControlService.class)
-        .debug(String.format("executing activity: %s", _activity.getId()));
+    logger.debug(String.format("executing activity: %s", _activity.getId()));
 
     ExecutionEntity execution = commandContext.getExecutionEntityManager()
         .findExecutionById(_executionId);

@@ -9,9 +9,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MailSender extends MailSenderSupport {
+  private static final Logger logger = LoggerFactory.getLogger(MailSender.class);
 
   public void sendMail(String receiver, String subject, String message) throws Exception {
     Properties properties = new Properties();
@@ -32,7 +34,6 @@ public class MailSender extends MailSenderSupport {
         new InternetAddress(receiver) });// 设置邮件接收人
     tran.close();
 
-    Logger.getLogger(this.getClass())
-        .debug(String.format("sent mail to <%s>: %s", receiver, subject));
+    logger.debug(String.format("sent mail to <%s>: %s", receiver, subject));
   }
 }

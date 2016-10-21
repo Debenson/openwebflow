@@ -12,11 +12,14 @@ import org.activiti.engine.impl.UserQueryImpl;
 import org.activiti.engine.impl.interceptor.Session;
 import org.activiti.engine.impl.persistence.entity.IdentityInfoEntity;
 import org.activiti.engine.impl.persistence.entity.UserIdentityManager;
-import org.apache.log4j.Logger;
 import org.openwebflow.identity.IdentityMembershipManager;
 import org.openwebflow.util.IdentityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DummyUserIdentityManager implements UserIdentityManager, Session {
+  private static final Logger logger = LoggerFactory.getLogger(DummyUserIdentityManager.class);
+
   IdentityMembershipManager _customMembershipManager;
 
   public DummyUserIdentityManager(IdentityMembershipManager customMembershipManager) {
@@ -49,8 +52,7 @@ public class DummyUserIdentityManager implements UserIdentityManager, Session {
 
   @Override
   public List<Group> findGroupsByUser(String userId) {
-    Logger.getLogger(this.getClass())
-        .debug(String.format("%s#findGroupsByUser(\"%s\")", _customMembershipManager, userId));
+    logger.debug(String.format("%s#findGroupsByUser(\"%s\")", _customMembershipManager, userId));
 
     try {
       return IdentityUtils.getGroupsFromIds(_customMembershipManager.findGroupIdsByUser(userId));

@@ -1,18 +1,17 @@
 package org.openwebflow.alarm.impl;
 
-import java.io.InputStreamReader;
-
 import javax.script.ScriptEngine;
 
 import org.activiti.engine.impl.scripting.JuelScriptEngineFactory;
 import org.activiti.engine.task.Task;
-import org.h2.util.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.openwebflow.alarm.MessageNotifier;
 import org.openwebflow.identity.UserDetailsEntity;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 
 public class MailMessageNotifier implements MessageNotifier, InitializingBean {
+
   MailSender _mailSender;
 
   String _messageTemplate;
@@ -25,9 +24,7 @@ public class MailMessageNotifier implements MessageNotifier, InitializingBean {
 
   @Override
   public void afterPropertiesSet() throws Exception {
-    _messageTemplate = IOUtils.readStringAndClose(
-        new InputStreamReader(_messageTemplateResource.getInputStream()),
-        (int) _messageTemplateResource.contentLength());
+    _messageTemplate = IOUtils.toString(_messageTemplateResource.getInputStream(), "utf-8");
   }
 
   public MailSender getMailSender() {

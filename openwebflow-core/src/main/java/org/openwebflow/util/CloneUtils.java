@@ -3,7 +3,8 @@ package org.openwebflow.util;
 import java.lang.reflect.Field;
 
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -13,6 +14,8 @@ import org.springframework.util.Assert;
  *
  */
 public abstract class CloneUtils {
+  private static final Logger logger = LoggerFactory.getLogger(CloneUtils.class);
+  
   public static void copyFields(Object source, Object target, String... fieldNames) {
     Assert.notNull(source);
     Assert.notNull(target);
@@ -24,7 +27,7 @@ public abstract class CloneUtils {
         field.setAccessible(true);
         field.set(target, field.get(source));
       } catch (Exception e) {
-        Logger.getLogger(CloneUtils.class).warn(e.getMessage());
+        logger.warn(e.getMessage());
       }
     }
   }

@@ -8,7 +8,8 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 流程定义相关操作的封装
@@ -17,6 +18,8 @@ import org.apache.log4j.Logger;
  *
  */
 public abstract class ProcessDefinitionUtils {
+  private static final Logger logger = LoggerFactory.getLogger(ProcessDefinitionUtils.class);
+
   public static ActivityImpl getActivity(ProcessEngine processEngine, String processDefId,
       String activityId) {
     ProcessDefinitionEntity pde = getProcessDefinition(processEngine, processDefId);
@@ -40,9 +43,8 @@ public abstract class ProcessDefinitionUtils {
     FieldUtils.writeField(taskDefinition, "candidateGroupIdExpressions",
         ExpressionUtils.stringToExpressionSet(candidateGroupIdExpressions), true);
 
-    Logger.getLogger(ProcessDefinitionUtils.class)
-        .info(String.format("granting previledges for [%s, %s, %s] on [%s, %s]", assigneeExpression,
-            candidateGroupIdExpressions, candidateUserIdExpressions,
-            activity.getProcessDefinition().getKey(), activity.getProperty("name")));
+    logger.info(String.format("granting previledges for [%s, %s, %s] on [%s, %s]",
+        assigneeExpression, candidateGroupIdExpressions, candidateUserIdExpressions,
+        activity.getProcessDefinition().getKey(), activity.getProperty("name")));
   }
 }

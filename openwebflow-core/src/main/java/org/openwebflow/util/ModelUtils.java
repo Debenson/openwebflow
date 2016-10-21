@@ -3,7 +3,6 @@ package org.openwebflow.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -13,8 +12,9 @@ import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
-import org.apache.log4j.Logger;
-import org.h2.util.IOUtils;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -28,6 +28,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  *
  */
 public abstract class ModelUtils {
+  private static final Logger logger = LoggerFactory.getLogger(ModelUtils.class);
+
   private static String EMPTY_MODEL_XML = "";
 
   private static String EMPTY_MODEL_XML_PATH = "empty-model.bpmn";
@@ -35,9 +37,7 @@ public abstract class ModelUtils {
   static {
     Resource defaultModelXmlResource = new ClassPathResource(EMPTY_MODEL_XML_PATH);
     try {
-      EMPTY_MODEL_XML = IOUtils.readStringAndClose(
-          new InputStreamReader(defaultModelXmlResource.getInputStream()),
-          (int) defaultModelXmlResource.contentLength());
+      EMPTY_MODEL_XML = IOUtils.toString(defaultModelXmlResource.getInputStream(), "utf-8");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -80,8 +80,9 @@ public abstract class ModelUtils {
 
   public static void importModel(RepositoryService repositoryService, File modelFile)
       throws IOException, XMLStreamException {
-    InputStreamReader reader = new InputStreamReader(new FileInputStream(modelFile), "utf-8");
-    String fileContent = IOUtils.readStringAndClose(reader, (int) modelFile.length());
+    // InputStreamReader reader = new InputStreamReader(new
+    // FileInputStream(modelFile), "utf-8");
+    String fileContent = IOUtils.toString(new FileInputStream(modelFile), "utf-8");
 
     BpmnModel bpmnModel = new BpmnXMLConverter()
         .convertToBpmnModel(new StringStreamSourceEx(fileContent), false, false);
@@ -102,7 +103,6 @@ public abstract class ModelUtils {
     repositoryService.saveModel(modelData);
 
     repositoryService.addModelEditorSource(modelData.getId(), fileContent.getBytes("utf-8"));
-    Logger.getLogger(ModelUtils.class)
-        .info(String.format("importing model file: %s", modelFile.getCanonicalPath()));
+    logger.info(String.format("importing model file: %s", modelFile.getCanonicalPath()));
   }
 }

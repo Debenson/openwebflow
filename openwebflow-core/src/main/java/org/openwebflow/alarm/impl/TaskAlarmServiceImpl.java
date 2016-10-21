@@ -7,7 +7,6 @@ import java.util.TimerTask;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.openwebflow.alarm.MessageNotifier;
@@ -17,9 +16,13 @@ import org.openwebflow.identity.IdentityMembershipManager;
 import org.openwebflow.identity.UserDetailsEntity;
 import org.openwebflow.identity.UserDetailsManager;
 import org.openwebflow.util.IdentityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 
 public class TaskAlarmServiceImpl implements TaskAlarmService, DisposableBean {
+  private static final Logger logger = LoggerFactory.getLogger(TaskAlarmServiceImpl.class);
+
   class MonitorTask extends TimerTask {
     Period _parsedPeriodInAdvance;
 
@@ -31,8 +34,8 @@ public class TaskAlarmServiceImpl implements TaskAlarmService, DisposableBean {
       // 检查即将过期的task
       Date dueDate = DateTime.now().minus(_parsedPeriodInAdvance).toDate();
 
-      for (Task task : _processEngine.getTaskService().createTaskQuery().active().dueAfter(dueDate)
-          .list()) {
+      for (Task task : _processEngine.getTaskService().createTaskQuery().active()
+          .taskDueAfter(dueDate).list()) {
         // 是否已经通知？
         if (!_taskNotificationManager.isNotified(task.getId())) {
           // 没有通知则现在通知
@@ -45,7 +48,7 @@ public class TaskAlarmServiceImpl implements TaskAlarmService, DisposableBean {
           }
           // 设置标志
           _taskNotificationManager.setNotified(task.getId());
-          Logger.getLogger(getClass()).debug(String.format("notified %s", involvedUsers));
+          logger.debug(String.format("notified %s", involvedUsers));
         }
       }
     }

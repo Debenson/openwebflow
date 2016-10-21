@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
-import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.el.FixedValue;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
