@@ -5,3 +5,5 @@
 *.pptx
 !/target/lib/
 */target/classes/
+.project
+.classpath
